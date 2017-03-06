@@ -9,23 +9,6 @@ def answer(h, q):
     return [parent_node(n, rs, parent_map) for n in q]
 
 
-def cache(f):
-    _cache = {}
-
-    def wrapped_f(*args, **kwargs):
-        return f(*args, **kwargs)
-
-        key = tuple(args) + tuple(kwargs.items())
-        if key in _cache:
-            return _cache[key]
-        else:
-            res = f(*args, **kwargs)
-            _cache[key] = res
-            return res
-
-    return wrapped_f
-
-
 def parent_node(n, rs, parent_map):
     if n in parent_map:
         return parent_map[n]
@@ -42,6 +25,21 @@ def tree_roots(h):
     for _ in range(h):
         yield n
         n = n * 2 + 1
+
+
+def cache(f):
+    _cache = {}
+
+    def wrapped_f(*args, **kwargs):
+        key = tuple(args) + tuple(kwargs.items())
+        if key in _cache:
+            return _cache[key]
+        else:
+            res = f(*args, **kwargs)
+            _cache[key] = res
+            return res
+
+    return wrapped_f
 
 
 @cache
