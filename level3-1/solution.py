@@ -14,16 +14,10 @@
 #     (string) "4"
 
 
-from itertools import count
-
-
 def answer(M, F):
     S, L = sorted((int(M), int(F)))
     step = 0
-    for step in count(0):
-        if S == L == 1:
-            return str(step)
-
+    while True:
         if S == 1:
             return str(L - 1 + step)
 
@@ -32,4 +26,5 @@ def answer(M, F):
         if remainder == 0:
             return 'impossible'
         else:
+            step += L / S
             S, L = remainder, S
