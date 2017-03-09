@@ -3,21 +3,19 @@ import operator as op
 
 def answer(start, length):
     checksum = 0
-    for line in range(length):
-        end = start + length - line
+    for row in range(length):
+        end = start + length - row
 
-        if length - line >= 4:
-            first_prod_of_4 = (start + (4 - start % 4)
-                               if start % 4 != 0 else start)
-            last_prod_of_4 = (end - end % 4 if end % 4 != 0 else end)
-            all_numbers = (
-                range(start, first_prod_of_4) + range(last_prod_of_4, end))
-        else:
-            all_numbers = range(start, end)
+        start_nearest_even = start >> 1 << 1
+        end_nearest_even = end >> 1 << 1
+        checksum ^= ((start_nearest_even >> 1) - (end_nearest_even >> 1)) % 2
 
-        checksum ^= reduce(op.xor, all_numbers, 0)
+        if start % 2 == 1:
+            checksum ^= start_nearest_even
+        if end % 2 == 1:
+            checksum ^= end_nearest_even
 
-        start = end + line
+        start = end + row
 
     return checksum
 
